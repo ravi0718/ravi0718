@@ -1,0 +1,72 @@
+#include<stdio.h>
+#define SIZE 20
+int fib(int);
+void display_result();
+int result[SIZE];
+int result_size;
+void display_result(){
+int i;
+printf("Result\n");
+for(i=0;i<SIZE;i++){
+ printf("%d ",result[i]);
+}
+printf("\n");
+}
+int count=0;
+int fib(int n){
+ static int sum=0;
+ count++;
+ if(n<0)
+ return -2;
+ if(n==0 )
+ return 0;
+ if(n==1)
+ return 1;
+ else{
+ if(result[n]==-2){
+ if(result[n-1]==-2){
+ printf("call to fib\n");
+ sum=(fib(n-1));
+ }
+ else{
+ printf("Lookup table\n");
+ sum=result[n-1];
+ }
+ if(result[n-2]==-2){
+ printf("call to fib\n");
+ sum+=fib(n-2);
+ //result[n]=sum;
+ }
+ else{
+ //printf("Lookup table\n");
+ sum+=result[n-2];
+ }
+ }
+ }
+ result[n]=sum;
+ return sum;
+}
+int main() {
+ int f,i;
+ result[0]=0;
+ result[1]=1;
+ for(i=2;i<=SIZE;i++)
+ result[i]=-2;
+ while(1){
+ count=0;
+ printf("5158_ RAVITEJA: ");
+ scanf("%d",&f);
+ printf("%d\n",fib(f));
+ display_result();
+ printf("\n");
+ printf("\nNo of calls to fib=%d\n",count);
+ }
+}
+
+
+
+
+
+
+
+
