@@ -1,0 +1,329 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 3
+struct node{
+int data;
+struct node *next,*prev;
+};
+typedef struct node node;
+node *ptr,*new_node,*head=NULL,*tail=NULL;
+int nodecount,CCF=0;
+int current_len;
+void create_node(int);
+void append_node();
+void create_circular_list();
+void menu();
+void delete_head();
+void delete_last();
+void delete_pos(int);
+void delete_position(int);
+void insert_position();
+void insert_head(int);
+void append_last(int);
+void display_forward();
+void display_reverse();
+void insert_head(int element){
+if(nodecount==0){
+create_node(element);
+head=tail=new_node;
+}
+else if(nodecount>0 && nodecount < SIZE){
+create_node(element);
+new_node->next=head;
+head->prev=new_node;
+new_node->prev=tail;
+head=new_node;
+}
+else {
+ptr=head;
+ptr->data=element;
+}
+current_len=nodecount;
+}
+void append_last(int element){
+if(nodecount<SIZE){
+create_node(element);
+tail->next=new_node;
+new_node->prev=tail;
+tail=new_node;
+}
+if(nodecount==SIZE){
+tail->data=element;
+}
+current_len=nodecount;
+}
+void insert_position(int pos){
+int i=1; node *temp;
+ptr=head;
+temp=ptr;
+while(i<pos-1){
+ptr=ptr->next;
+i++;
+}
+temp=ptr->next; //node to be deleted
+ptr->next=temp->next;
+temp->next->prev=ptr;
+free(temp);
+nodecount--;
+}
+void insert_pos(int pos){
+int i=1, element;
+if(pos==1){
+printf("pos to insert =%d\n",pos);
+printf("\nEnter data :");
+scanf("%d",&element);
+insert_head(element);
+}
+else if(pos==nodecount+1){
+printf("pos to insert =%d\n",pos);
+printf("\nEnter data :");
+scanf("%d",&element);
+append_last(element);
+}
+else{
+if(nodecount<SIZE){
+printf("pos to insert =%d\n",pos);
+printf("\nEnter data :");
+scanf("%d",&element);
+create_node(element);
+ptr=head;
+i=1;
+while(i<pos-1){
+ptr=ptr->next;
+i++;
+}
+new_node->next=ptr->next;
+new_node->prev=ptr;
+ptr->next->prev=new_node;
+ptr->next=new_node;
+}
+else{
+printf("List Full\n");
+}
+current_len=nodecount;
+}
+}
+void delete_position(int pos){
+int i=1; node *temp;
+if(pos<=nodecount/2){
+ptr=head;
+i=1;
+while(i<pos-1){
+ptr=ptr->next;
+i++;
+}
+temp=ptr->next; //temp is the node to be deleted
+ptr->next=temp->next;
+temp->next->prev=ptr;
+free(temp);
+nodecount--;
+current_len=nodecount;
+}
+else {
+i=pos;
+ptr=tail;
+while(i<(nodecount-1)){
+ptr=ptr->prev;
+i++;
+}
+temp=ptr->prev; //temp is the node to be deleted
+ptr->prev=temp->prev;
+temp->prev->next=ptr;
+free(temp);
+nodecount--;
+current_len=nodecount;
+}
+}
+void delete_pos(int pos){
+if(pos==1)
+delete_head();
+else if(pos==nodecount)
+delete_last();
+else
+delete_position(pos);
+}
+void delete_last(){
+if(tail==NULL)
+printf("List empty\n");
+else if(tail==head){
+free(tail);
+head=tail=NULL;
+nodecount=0;
+current_len=nodecount;
+}
+else{
+ptr=tail->prev;
+printf("deleted: %d",tail->data);
+ptr->next=head;
+free(tail);
+tail=ptr;
+nodecount--;
+current_len=nodecount;
+}
+}
+void delete_head(){
+if(head==NULL)
+printf("List empty\n");
+else if(head==tail){
+free(head);
+head=tail=NULL;
+nodecount=0;
+current_len=nodecount;
+}
+else{
+ptr=head;
+printf("deleted: %d\n",ptr->data);
+head=ptr->next;
+head->prev=tail;
+free(ptr);
+nodecount--;
+current_len=nodecount;
+}
+}
+void create_node(int data){
+new_node=(node *)malloc(sizeof(node));
+if(new_node==NULL){
+printf("Memory error\n");
+exit(-1);
+}
+new_node->data=data;
+new_node->next=NULL;
+new_node->prev=NULL;
+nodecount++;
+}
+void create_circular_list(int element){
+int i;
+static int j=1;
+if(nodecount<SIZE&&CCF==0){
+create_node(element);
+if(head==NULL){
+head=new_node;
+tail=new_node;
+}
+else
+{
+append_node();
+}
+current_len=nodecount;
+}
+else{
+CCF=1;
+if(nodecount==SIZE){
+tail->next=head;
+head->prev=tail;
+}
+i=1;
+ptr=head;
+for(i=1;i<j;i++){
+ptr=ptr->next;
+}
+j=j+1;
+if(j>SIZE){
+j=1;
+}
+ptr->data=element;
+}
+}
+void append_node(){
+if(head==NULL && tail==NULL){
+head=new_node;
+tail=new_node;
+}
+else{
+tail->next=new_node;
+new_node->prev=tail;
+tail=new_node;
+}
+}
+void menu(){
+printf("1. Create_circular_list\n");
+printf("2. Display forward\n");
+printf("3. Delete head\n");
+printf("4. Delete last\n");
+printf("5. Delete pos\n");
+printf("6. List size\n");
+printf("7. Display revere\n");
+printf("8. Insert pos\n");
+printf("Enter option : ");
+}
+void display_forward(){
+int i=1;
+ptr=head;
+i=1;
+if(head==NULL){
+printf("List empty\n");
+}
+else{
+printf("\nList :\n");
+while(i<=current_len){
+printf("%d ",ptr->data);
+ptr=ptr->next;
+i++;
+}
+printf("\n");
+}
+}
+void display_reverse(){
+int i=1;
+ptr=tail;
+i=1;
+if(tail==NULL){
+printf("List empty\n");
+}
+else{
+printf("\nList :\n");
+while(i<=current_len){
+printf("%d ",ptr->data);
+ptr=ptr->prev;
+i++;
+}
+printf("\n");
+}
+}
+int main() {
+int op,element,pos;
+char ch;
+do{
+menu();
+scanf("%d",&op);
+switch(op){
+case 1: printf("\nEnter data:");
+scanf("%d",&element);
+create_circular_list(element);
+break;
+case 2: display_forward();
+break;
+case 3: delete_head();
+break;
+case 4: delete_last();
+break;
+case 5: printf("Enter the node no: ");
+scanf("%d",&pos);
+if(pos<1 || pos > nodecount || pos > SIZE){
+printf("position invalid\n");
+break;
+}
+delete_pos(pos);
+break;
+case 6: printf("List size:%d\n",nodecount);
+break;
+case 7: display_reverse();
+ break;
+case 8:
+printf("Enter the node no: ");
+scanf("%d",&pos);
+if(pos<1 || pos > nodecount+1){
+printf("position invalid\n");
+break;
+}
+insert_pos(pos);
+break;
+}
+printf("\nEnter N/n to exit:");
+scanf("%c",&ch);
+if(ch=='N'||ch=='n')
+ break;
+}while(ch);
+}
+
+
