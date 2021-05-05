@@ -1,0 +1,169 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+struct node{ 
+ int data; 
+ struct node *next; 
+}; 
+typedef struct node node; 
+node *ptr,*new_node,*head=NULL; 
+int nodecount; 
+void create_node(int); 
+void append_node(); 
+void display_list(); 
+void menu(); 
+void delete_head(); 
+void delete_last(); 
+void delete_pos(int); 
+void delete_position(int);
+void delete_position(int pos){ 
+int i=1; node *temp; 
+ptr=head; 
+temp=ptr; 
+while(i<pos-1){ 
+ ptr=ptr->next; 
+ i++; 
+} 
+temp=ptr->next; 
+ptr->next=temp->next; 
+free(temp); 
+nodecount--; 
+} 
+void delete_pos(int pos){ 
+if(pos==1) 
+ delete_head(); 
+else if(pos==nodecount) 
+ delete_last(); 
+else 
+ delete_position(pos); 
+} 
+void delete_last(){ 
+ if(head==NULL) 
+ printf("List empty\n"); 
+ else{ 
+ ptr=head; 
+ if(ptr->next==NULL){ 
+ printf("deleted: %d",ptr->data); 
+ free(ptr);
+head=NULL; 
+ nodecount=0; 
+ } 
+ else{ 
+ node *ptr1; 
+ ptr=head; 
+ ptr1=ptr; 
+ while(ptr->next!=NULL){ 
+ ptr1=ptr; 
+ ptr=ptr->next; 
+ } 
+ free(ptr); 
+ ptr1->next=NULL; 
+ nodecount--; 
+ } 
+ } 
+} 
+void delete_head(){ 
+if(head==NULL) 
+ printf("List empty\n"); 
+ else{ 
+ ptr=head; 
+ printf("deleted: %d\n",ptr->data); 
+ head=ptr->next; 
+ free(ptr); 
+ nodecount--; 
+ } 
+ } 
+void create_node(int data){
+new_node=(node *)malloc(sizeof(node)); 
+ if(new_node==NULL){ 
+ printf("Memory error\n"); 
+ exit(-1); 
+ } 
+ new_node->data=data; 
+ new_node->next=NULL; 
+ nodecount++; 
+} 
+void create_list(int element){ 
+ create_node(element); 
+ if(head==NULL){ 
+ head=new_node; 
+ } 
+ else{ 
+ append_node(); 
+ } 
+} 
+void append_node(){ 
+ if(head==NULL) 
+ head=new_node; 
+ else{ 
+ ptr=head; 
+ while(ptr->next!=NULL) 
+ ptr=ptr->next; 
+ ptr->next=new_node; 
+} 
+} 
+void menu(){
+printf("1. Create List\n"); 
+printf("2. Display List\n"); 
+printf("3. Append node\n"); 
+printf("4. Delete head\n"); 
+printf("5. Delete last\n"); 
+printf("6. Delete pos\n"); 
+printf("7. List size\n"); 
+printf("Enter option : "); 
+} 
+void display_list(){ 
+ptr=head; 
+if(head==NULL){ 
+ printf("List empty\n"); 
+ } 
+else{ 
+printf("\nlist :\n"); 
+while(ptr!=NULL){ 
+ printf("%d ",ptr->data); 
+ ptr=ptr->next; 
+} 
+ printf("\n"); 
+} 
+} 
+int main() { 
+ int op,element,pos; 
+ char ch; 
+do{ 
+ menu(); 
+ scanf("%d",&op);
+switch(op){ 
+ case 1:printf("\nEnter data:"); 
+ scanf("%d",&element); 
+ create_list(element); 
+ break; 
+ case 2: display_list(); 
+ break; 
+ case 3: printf("\nEnter data:"); 
+ scanf("%d",&element); 
+ create_node(element); 
+ append_node(); 
+ break; 
+ case 4: delete_head(); 
+ break; 
+ case 5: delete_last(); 
+ break; 
+ case 6: 
+ printf("Enter the node no: "); 
+ scanf("%d",&pos); 
+ if(pos<1 || pos > nodecount){ 
+ printf("position invalid\n"); 
+ break; 
+ } 
+ delete_pos(pos); 
+ break; 
+ case 7: printf("List size:%d\n",nodecount); 
+ break; 
+ } 
+ printf("\nEnter N/n to exit:"); 
+ scanf("%c",&ch); 
+ if(ch=='N'||ch=='n')
+ break; 
+}while(ch); 
+}
+
+
