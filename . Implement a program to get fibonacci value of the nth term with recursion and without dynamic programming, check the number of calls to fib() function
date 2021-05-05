@@ -1,0 +1,30 @@
+#include<stdio.h>
+int fib(int);
+int count=0;
+int fib(int n){
+ static int sum=0;
+ count++;
+ if(n<0)
+ return -1;
+ if(n==0 )
+ return 0;
+ if(n==1)
+ return 1;
+ else{
+ sum=fib(n-1)+fib(n-2);
+ }
+ return sum;
+}
+int main() {
+ int f;
+ while(1){
+ count=0;
+ printf("\n 9919005158\n");
+ printf("Enter a positive no :- ");
+ scanf("%d",&f);
+ printf("fib of %d is %d ",f,fib(f)); //top down approch
+ printf("\n");
+ printf("\nNo of calls to fib=%d\n",count);
+ }
+}
+
