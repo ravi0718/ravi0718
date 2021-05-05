@@ -1,0 +1,584 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+struct node{ 
+int data; 
+struct node *next,*prev; 
+}; 
+typedef struct node node; 
+node *ptr,*new_node,*head=NULL,*tail=NULL; 
+int nodecount; 
+void create_node(int); 
+void append_node(); 
+void create_list(); 
+void append_node(); 
+void display_forward(); 
+void menu(); 
+void delete_head(); 
+void delete_last(); 
+void delete_pos(int); 
+void delete_position(int); 
+void insert_position(); 
+void insert_head(int); 
+void append_last(int); 
+void insert_head(int element){ 
+create_node(element); 
+new_node->next=head; 
+head->prev=new_node; 
+head=new_node; 
+} 
+void append_last(int element){
+create_node(element); 
+tail->next=new_node; 
+new_node->prev=tail; 
+tail=new_node; 
+} 
+void insert_position(int pos){ 
+int i=1; node *temp; 
+ptr=head; 
+temp=ptr; 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next; 
+ptr->next=temp->next; 
+temp->next->prev=ptr; 
+free(temp); 
+nodecount--; 
+} 
+void insert_pos(int pos){ 
+int i=1, element; 
+printf("pos to insert =%d\n",pos); 
+printf("\nEnter data :"); 
+scanf("%d",&element); 
+if(pos==1){ 
+insert_head(element); 
+} 
+else if(pos==nodecount+1){ 
+append_last(element); 
+} 
+else{ 
+create_node(element); 
+if(pos<=nodecount/2){ 
+ptr=head; 
+i=1; 
+while(i<pos-1){
+ptr=ptr->next; 
+i++; 
+} 
+new_node->next=ptr->next; 
+new_node->prev=ptr; 
+ptr->next->prev=new_node; 
+ptr->next=new_node; 
+} 
+else{ 
+i=pos; 
+ptr=tail; 
+while(i<(nodecount-1)){ 
+ptr=ptr->prev; 
+i++; 
+}
+new_node->next=ptr; 
+new_node->prev=ptr->prev; 
+new_node->prev->next=new_node; 
+ptr->prev=new_node; 
+} 
+} 
+} 
+void delete_position(int pos){ 
+int i=1; node *temp; 
+if(pos<=nodecount/2){ 
+ptr=head; 
+i=1; 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next;
+ptr->next=temp->next;
+temp->next->prev=ptr->prev; 
+free(temp); 
+nodecount--; 
+} 
+else { 
+i=pos; 
+ptr=tail; 
+while(i<(nodecount-1)){ 
+ptr=ptr->prev; 
+i++; 
+} 
+temp=ptr->prev; 
+ptr->prev=temp->prev; 
+temp->prev->next=ptr; 
+free(temp); 
+nodecount--; 
+} 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next; 
+ptr->next=temp->next; 
+temp->next->prev=ptr; 
+free(temp); 
+nodecount--; 
+} 
+void delete_pos(int pos){ 
+if(pos==1) 
+delete_head(); 
+else if(pos==nodecount) 
+delete_last(); 
+else 
+delete_position(pos); 
+}
+void delete_last(){ 
+if(tail==NULL) 
+printf("List empty\n"); 
+else if(tail==head){ 
+free(tail); 
+head=tail=NULL; 
+nodecount=0; 
+} 
+else{ 
+ptr=tail->prev; 
+printf("deleted: %d",tail->data); 
+ptr->next=NULL; 
+free(tail); 
+tail=ptr; 
+nodecount--; 
+ } 
+} 
+void delete_head(){ 
+if(head==NULL) 
+printf("List empty\n"); 
+else if(head==tail){ 
+free(head); 
+head=tail=NULL; 
+} 
+else{ 
+ptr=head; 
+printf("deleted: %d\n",ptr->data); 
+head=ptr->next; 
+head->prev=NULL; 
+free(ptr); 
+nodecount--; 
+} 
+} 
+void create_node(int data){
+new_node=(node *)malloc(sizeof(node)); 
+if(new_node==NULL){ 
+printf("Memory error\n"); 
+exit(-1); 
+} 
+new_node->data=data; 
+new_node->next=NULL; 
+new_node->prev=NULL; 
+nodecount++; 
+} 
+void create_list(int element){ 
+create_node(element); 
+if(head==NULL){ 
+head=new_node; 
+tail=new_node; 
+} 
+else{ 
+append_node(); 
+} 
+} 
+void append_node(){ 
+if(head==NULL && tail==NULL){ 
+head=new_node; 
+tail=new_node; 
+} 
+else{ 
+tail->next=new_node; 
+new_node->prev=tail; 
+tail=new_node; 
+} 
+} 
+void menu(){ 
+#include <stdio.h> 
+#include <stdlib.h> 
+struct node{ 
+int data; 
+struct node *next,*prev; 
+}; 
+typedef struct node node; 
+node *ptr,*new_node,*head=NULL,*tail=NULL; 
+int nodecount; 
+void create_node(int); 
+void append_node(); 
+void create_list(); 
+void append_node(); 
+void display_forward(); 
+void menu(); 
+void delete_head(); 
+void delete_last(); 
+void delete_pos(int); 
+void delete_position(int); 
+void insert_position(); 
+void insert_head(int); 
+void append_last(int); 
+void insert_head(int element){ 
+create_node(element); 
+new_node->next=head; 
+head->prev=new_node; 
+head=new_node; 
+} 
+void append_last(int element){
+create_node(element); 
+tail->next=new_node; 
+new_node->prev=tail; 
+tail=new_node; 
+} 
+void insert_position(int pos){ 
+int i=1; node *temp; 
+ptr=head; 
+temp=ptr; 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next; 
+ptr->next=temp->next; 
+temp->next->prev=ptr; 
+free(temp); 
+nodecount--; 
+} 
+void insert_pos(int pos){ 
+int i=1, element; 
+printf("pos to insert =%d\n",pos); 
+printf("\nEnter data :"); 
+scanf("%d",&element); 
+if(pos==1){ 
+insert_head(element); 
+} 
+else if(pos==nodecount+1){ 
+append_last(element); 
+} 
+else{ 
+create_node(element); 
+if(pos<=nodecount/2){ 
+ptr=head; 
+i=1; 
+while(i<pos-1){
+ptr=ptr->next; 
+i++; 
+} 
+new_node->next=ptr->next; 
+new_node->prev=ptr; 
+ptr->next->prev=new_node; 
+ptr->next=new_node; 
+} 
+else{ 
+i=pos; 
+ptr=tail; 
+while(i<(nodecount-1)){ 
+ptr=ptr->prev; 
+i++; 
+}
+new_node->next=ptr; 
+new_node->prev=ptr->prev; 
+new_node->prev->next=new_node; 
+ptr->prev=new_node; 
+} 
+} 
+} 
+void delete_position(int pos){ 
+int i=1; node *temp; 
+if(pos<=nodecount/2){ 
+ptr=head; 
+i=1; 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next;
+ptr->next=temp->next;
+temp->next->prev=ptr->prev; 
+free(temp); 
+nodecount--; 
+} 
+else { 
+i=pos; 
+ptr=tail; 
+while(i<(nodecount-1)){ 
+ptr=ptr->prev; 
+i++; 
+} 
+temp=ptr->prev; 
+ptr->prev=temp->prev; 
+temp->prev->next=ptr; 
+free(temp); 
+nodecount--; 
+} 
+while(i<pos-1){ 
+ptr=ptr->next; 
+i++; 
+} 
+temp=ptr->next; 
+ptr->next=temp->next; 
+temp->next->prev=ptr; 
+free(temp); 
+nodecount--; 
+} 
+void delete_pos(int pos){ 
+if(pos==1) 
+delete_head(); 
+else if(pos==nodecount) 
+delete_last(); 
+else 
+delete_position(pos); 
+}
+void delete_last(){ 
+if(tail==NULL) 
+printf("List empty\n"); 
+else if(tail==head){ 
+free(tail); 
+head=tail=NULL; 
+nodecount=0; 
+} 
+else{ 
+ptr=tail->prev; 
+printf("deleted: %d",tail->data); 
+ptr->next=NULL; 
+free(tail); 
+tail=ptr; 
+nodecount--; 
+ } 
+} 
+void delete_head(){ 
+if(head==NULL) 
+printf("List empty\n"); 
+else if(head==tail){ 
+free(head); 
+head=tail=NULL; 
+} 
+else{ 
+ptr=head; 
+printf("deleted: %d\n",ptr->data); 
+head=ptr->next; 
+head->prev=NULL; 
+free(ptr); 
+nodecount--; 
+} 
+} 
+void create_node(int data){
+new_node=(node *)malloc(sizeof(node)); 
+if(new_node==NULL){ 
+printf("Memory error\n"); 
+exit(-1); 
+} 
+new_node->data=data; 
+new_node->next=NULL; 
+new_node->prev=NULL; 
+nodecount++; 
+} 
+void create_list(int element){ 
+create_node(element); 
+if(head==NULL){ 
+head=new_node; 
+tail=new_node; 
+} 
+else{ 
+append_node(); 
+} 
+} 
+void append_node(){ 
+if(head==NULL && tail==NULL){ 
+head=new_node; 
+tail=new_node; 
+} 
+else{ 
+tail->next=new_node; 
+new_node->prev=tail; 
+tail=new_node; 
+} 
+} 
+void menu(){ 
+printf("\n MENU 9919005100 K.SAI KUMAR\n"); 
+printf("1. Create List\n"); 
+printf("2. Display forward\n"); 
+printf("3. Append node\n"); 
+printf("4. Delete head\n");
+printf("5. Delete last\n"); 
+printf("6. Delete pos\n"); 
+printf("7. List size\n"); 
+printf("8. Display reverse\n"); 
+printf("9. Insert pos\n"); 
+printf("Enter option : "); 
+} 
+void display_forward(){ 
+ptr=head; 
+if(head==NULL){ 
+printf("List empty\n"); 
+} 
+else{ 
+printf("\nList :\n"); 
+while(ptr!=NULL){ 
+printf("%d ",ptr->data); 
+ptr=ptr->next; 
+} 
+printf("\n"); 
+} 
+} 
+void display_reverse(){ 
+ptr=tail; 
+if(tail==NULL){ 
+printf("List empty\n"); 
+} 
+else{ 
+printf("\nList :\n"); 
+while(ptr!=NULL){ 
+printf("%d ",ptr->data); 
+ptr=ptr->prev; 
+} 
+printf("\n"); 
+} 
+} 
+int main() { 
+int op,element,pos;
+char ch; 
+do{ 
+menu(); 
+scanf("%d",&op); 
+switch(op){ 
+case 1:printf("\nEnter data:"); 
+scanf("%d",&element); 
+create_list(element); 
+break; 
+case 2: display_forward(); 
+break; 
+case 3: printf("\nEnter data:"); 
+scanf("%d",&element); 
+create_node(element); 
+append_node(); 
+break; 
+case 4: delete_head(); 
+break; 
+case 5: delete_last(); 
+break; 
+case 6: 
+printf("Enter the node no: "); 
+scanf("%d",&pos); 
+if(pos<1 || pos > nodecount){ 
+printf("position invalid\n"); 
+break; 
+} 
+delete_pos(pos); 
+break; 
+case 7: printf("List size:%d\n",nodecount); 
+break; 
+case 8: display_reverse(); 
+break; 
+case 9: 
+printf("Enter the node no: "); 
+scanf("%d",&pos); 
+if(pos<1 || pos > nodecount+1){ 
+printf("position invalid\n");
+break; 
+} 
+insert_pos(pos); 
+break; 
+} 
+printf("\nEnter N/n to exit:"); 
+scanf("%c",&ch); 
+if(ch=='N'||ch=='n') 
+break; 
+}while(ch); 
+}
+
+
+
+printf("1. Create List\n"); 
+printf("2. Display forward\n"); 
+printf("3. Append node\n"); 
+printf("4. Delete head\n");
+printf("5. Delete last\n"); 
+printf("6. Delete pos\n"); 
+printf("7. List size\n"); 
+printf("8. Display reverse\n"); 
+printf("9. Insert pos\n"); 
+printf("Enter option : "); 
+} 
+void display_forward(){ 
+ptr=head; 
+if(head==NULL){ 
+printf("List empty\n"); 
+} 
+else{ 
+printf("\nList :\n"); 
+while(ptr!=NULL){ 
+printf("%d ",ptr->data); 
+ptr=ptr->next; 
+} 
+printf("\n"); 
+} 
+} 
+void display_reverse(){ 
+ptr=tail; 
+if(tail==NULL){ 
+printf("List empty\n"); 
+} 
+else{ 
+printf("\nList :\n"); 
+while(ptr!=NULL){ 
+printf("%d ",ptr->data); 
+ptr=ptr->prev; 
+} 
+printf("\n"); 
+} 
+} 
+int main() { 
+int op,element,pos;
+char ch; 
+do{ 
+menu(); 
+scanf("%d",&op); 
+switch(op){ 
+case 1:printf("\nEnter data:"); 
+scanf("%d",&element); 
+create_list(element); 
+break; 
+case 2: display_forward(); 
+break; 
+case 3: printf("\nEnter data:"); 
+scanf("%d",&element); 
+create_node(element); 
+append_node(); 
+break; 
+case 4: delete_head(); 
+break; 
+case 5: delete_last(); 
+break; 
+case 6: 
+printf("Enter the node no: "); 
+scanf("%d",&pos); 
+if(pos<1 || pos > nodecount){ 
+printf("position invalid\n"); 
+break; 
+} 
+delete_pos(pos); 
+break; 
+case 7: printf("List size:%d\n",nodecount); 
+break; 
+case 8: display_reverse(); 
+break; 
+case 9: 
+printf("Enter the node no: "); 
+scanf("%d",&pos); 
+if(pos<1 || pos > nodecount+1){ 
+printf("position invalid\n");
+break; 
+} 
+insert_pos(pos); 
+break; 
+} 
+printf("\nEnter N/n to exit:"); 
+scanf("%c",&ch); 
+if(ch=='N'||ch=='n') 
+break; 
+}while(ch); 
+}
+
+
